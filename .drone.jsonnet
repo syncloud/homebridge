@@ -41,7 +41,7 @@ local build(arch, test_ui) = [{
            },
            {
              name: 'homebridge',
-             image: 'homebridge:' + homebridge,
+             image: 'homebridge/homebridge:' + homebridge,
              commands: [
                './homebridge/build.sh',
              ],
