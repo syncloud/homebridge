@@ -2,7 +2,7 @@ local name = 'homebridge';
 local browser = 'firefox';
 local version = '4.2.0';
 local php = '8.3.9-fpm-bullseye';
-local nginx = '1.24.0';
+local homebridge = '2025-09-03';
 local platform = '25.02';
 local selenium = '4.21.0-20240517';
 local deployer = 'https://github.com/syncloud/store/releases/download/4/syncloud-release';
@@ -28,13 +28,6 @@ local build(arch, test_ui) = [{
              ],
            },
            {
-             name: 'download',
-             image: 'debian:bookworm-slim',
-             commands: [
-               './download.sh ' + version,
-             ],
-           },
-           {
              name: 'cli',
              image: 'golang:1.23',
              commands: [
@@ -44,6 +37,20 @@ local build(arch, test_ui) = [{
                'CGO_ENABLED=0 go build -o ../build/snap/meta/hooks/pre-refresh ./cmd/pre-refresh',
                'CGO_ENABLED=0 go build -o ../build/snap/meta/hooks/post-refresh ./cmd/post-refresh',
                'CGO_ENABLED=0 go build -o ../build/snap/bin/cli ./cmd/cli',
+             ],
+           },
+           {
+             name: 'homebridge',
+             image: 'homebridge:' + homebridge,
+             commands: [
+               './homebridge/build.sh',
+             ],
+           },
+           {
+             name: 'homebridge test',
+             image: 'syncloud/platform-buster-' + arch + ':' + platform,
+             commands: [
+               './homebridge/test.sh',
              ],
            },
            {
