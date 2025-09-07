@@ -11,3 +11,5 @@ cp -r /usr ${BUILD_DIR}
 cp -r /bin ${BUILD_DIR}
 cp -r /lib ${BUILD_DIR}
 cp -r ${DIR}/bin/* ${BUILD_DIR}/bin
+
+sed -i 's#app\.listen\(.*\);#app.listen({path: "/var/snap/homebridge/common/web.socket"});#g' ${BUILD_DIR}/opt/homebridge/lib/node_modules/homebridge-config-ui-x/dist/main.js

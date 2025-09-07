@@ -1,6 +1,5 @@
 apps:
-  php-fpm:
-  nginx:
+  web:
     command: bin/service.web.sh
     user: homebridge
     daemon: simple
