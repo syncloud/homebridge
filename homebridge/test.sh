@@ -5,4 +5,4 @@ cd ${DIR}
 
 BUILD_DIR=${DIR}/../build/snap/homebridge
 ${BUILD_DIR}/bin/node.sh --version
-${BUILD_DIR}/usr/local/bin/ffmpeg.sh -version
+${BUILD_DIR}/bin/ffmpeg.sh -version
