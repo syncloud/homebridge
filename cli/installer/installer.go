@@ -151,15 +151,6 @@ func (i *Installer) StorageChange() error {
 		return err
 	}
 
-	err = i.platformClient.RestartService(fmt.Sprint(App, ".nginx"))
-	if err != nil {
-		return err
-	}
-	err = i.platformClient.RestartService(fmt.Sprint(App, ".php-fpm"))
-	if err != nil {
-		return err
-	}
-
 	return nil
 }
 
