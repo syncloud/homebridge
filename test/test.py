@@ -20,7 +20,6 @@ def module_setup(request, device, platform_data_dir, app_dir, artifact_dir):
         os.mkdir(platform_log_dir)
         device.scp_from_device('{0}/log/*'.format(platform_data_dir), platform_log_dir)
         device.run_ssh('ls -la /var/snap/homebridge/current/homebridge/config > {0}/config.ls.log'.format(TMP_DIR), throw=False)
-        device.run_ssh('cp /var/snap/homebridge/current/homebridge/config/config.php {0}'.format(TMP_DIR), throw=False)
         device.run_ssh('top -bn 1 -w 500 -c > {0}/top.log'.format(TMP_DIR), throw=False)
         device.run_ssh('ps auxfw > {0}/ps.log'.format(TMP_DIR), throw=False)
         device.run_ssh('systemctl status snap.homebridge.php-fpm > {0}/homebridge.php-fpm.status.log'.format(TMP_DIR),

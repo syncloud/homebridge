@@ -199,14 +199,6 @@ func (i *Installer) UpdateConfigs() error {
 		return err
 	}
 
-	err = cp.Copy(
-		path.Join(i.configDir, "config.php"),
-		path.Join(i.dataDir, "data", "config.php"),
-	)
-	if err != nil {
-		return err
-	}
-
 	return nil
 }
 
