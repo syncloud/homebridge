@@ -31,7 +31,7 @@ def test_start(module_setup, app, domain, device_host):
 
 def test_login(selenium, device_user, device_password):
     selenium.open_app()
-    selenium.find_by_id("username").send_keys(device_user)
+    selenium.find_by_xpath("//bytton[contains(.,'Get Started')]").click()
     password = selenium.find_by_id("password")
     password.send_keys(device_password)
     selenium.screenshot('login')
