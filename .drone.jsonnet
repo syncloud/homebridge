@@ -1,7 +1,7 @@
 local name = 'homebridge';
 local browser = 'firefox';
 local version = '4.2.0';
-local php = '8.3.9-fpm-bullseye';
+local node = '24.7.0-bookworm';
 local homebridge = '2025-09-03';
 local platform = '25.02';
 local selenium = '4.21.0-20240517';
@@ -44,6 +44,13 @@ local build(arch, test_ui) = [{
              image: 'homebridge/homebridge:' + homebridge,
              commands: [
                './homebridge/build.sh',
+             ],
+           },
+           {
+             name: 'homebridge npm',
+             image: 'node:' + node,
+             commands: [
+               './homebridge/npm.sh',
              ],
            },
            {
