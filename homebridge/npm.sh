@@ -4,10 +4,8 @@ DIR=$( cd "$( dirname "$0" )" && pwd )
 cd ${DIR}
 VERSION=$1
 
-BUILD_DIR=${DIR}/../build/snap
-ls -la $BUILD_DIR/homebridge/opt/homebridge/lib/node_modules
+BUILD_DIR=${DIR}/../build/snap/homebridge/opt/homebridge/backend
 
-cd $BUILD_DIR/homebridge/opt/homebridge/lib
+mkdir $BUILD_DIR
+cd $BUILD_DIR
 npm i homebridge@$VERSION
-
-ls -la $BUILD_DIR/homebridge/opt/homebridge/lib/node_modules
