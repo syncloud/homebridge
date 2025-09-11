@@ -12,9 +12,8 @@ cp -r /bin ${BUILD_DIR}
 cp -r /lib ${BUILD_DIR}
 cp -r ${DIR}/bin/* ${BUILD_DIR}/bin
 
-sed -i 's#app\.listen\(.*\);#app.listen({path: "/var/snap/homebridge/common/web.socket"});#g' ${BUILD_DIR}/opt/homebridge/lib/node_modules/homebridge-config-ui-x/dist/main.js
-sed -i 's#// Check the folder directly above#this.homebridgeModulePath = "/var/snap/homebridge/current/backend/node_modules/homebridge"#g' ${BUILD_DIR}/opt/homebridge/lib/node_modules/homebridge-config-ui-x/dist/bin/hb-service.js
+UI_DIR=${BUILD_DIR}/opt/homebridge/lib/node_modules/homebridge-config-ui-x/dist
+sed -i 's#app\.listen\(.*\);#app.listen({path: "/var/snap/homebridge/common/web.socket"});#g' ${UI_DIR}/main.js
+sed -i '/async findHomebridgePath() {/a this.homebridgeModulePath = "\/var\/snap\/homebridge\/current\/backend\/node_modules\/homebridge";' ${UI_DIR}/bin/hb-service.js
 
-mkdir ${BUILD_DIR}/homebridge
-cd ${BUILD_DIR}/homebridge
-
+grep -C 3 "async findHomebridgePath() {" ${UI_DIR}/bin/hb-service.js
