@@ -1,7 +1,8 @@
 local name = 'homebridge';
 local browser = 'firefox';
 local node = '24.7.0-bookworm';
-local homebridge = '2025-09-03';
+local homebridge_ui = '2025-09-03';
+local homebridge_backend = '1.11.0';
 local platform = '25.02';
 local selenium = '4.21.0-20240517';
 local deployer = 'https://github.com/syncloud/store/releases/download/4/syncloud-release';
@@ -40,7 +41,7 @@ local build(arch, test_ui) = [{
            },
            {
              name: 'homebridge',
-             image: 'homebridge/homebridge:' + homebridge,
+             image: 'homebridge/homebridge:' + homebridge_ui,
              commands: [
                './homebridge/build.sh',
              ],
@@ -49,7 +50,7 @@ local build(arch, test_ui) = [{
              name: 'homebridge npm',
              image: 'node:' + node,
              commands: [
-               './homebridge/npm.sh',
+               './homebridge/npm.sh ' + homebridge_backend,
              ],
            },
            {
