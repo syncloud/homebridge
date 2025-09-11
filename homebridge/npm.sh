@@ -4,7 +4,7 @@ DIR=$( cd "$( dirname "$0" )" && pwd )
 cd ${DIR}
 VERSION=$1
 
-BUILD_DIR=${DIR}/../build/snap/homebridge/opt/homebridge/backend
+BUILD_DIR=${DIR}/../build/snap/backend
 
 mkdir $BUILD_DIR
 cd $BUILD_DIR
