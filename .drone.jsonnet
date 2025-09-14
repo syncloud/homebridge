@@ -1,6 +1,6 @@
 local name = 'homebridge';
 local browser = 'firefox';
-local node = '24.7.0-bookworm';
+local node = '23.11.1-alpine3.22';
 local homebridge_ui = '2025-09-03';
 local homebridge_backend = '1.11.0';
 local platform = '25.02';
