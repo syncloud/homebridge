@@ -5,7 +5,7 @@ cd ${DIR}
 
 BUILD_DIR=${DIR}/../build/snap/homebridge
 
-#UI_DIR=${BUILD_DIR}/opt/homebridge/lib/node_modules/homebridge-config-ui-x
+UI_DIR=${BUILD_DIR}/opt/homebridge/lib/node_modules/homebridge-config-ui-x
 #sed -i 's#app\.listen\(.*\);#app.listen({path: "/var/snap/homebridge/common/web.socket"});#g' ${UI_DIR}/main.js
 #sed -i '/async findHomebridgePath() {/a this.homebridgeModulePath = "\/snap\/homebridge\/current\/backend\/node_modules\/homebridge";' ${UI_DIR}/bin/hb-service.js
 
@@ -30,5 +30,6 @@ rm -rf $UI_DIR/scripts
 mv scripts $UI_DIR
 cp package.json $UI_DIR
 cp config.schema.json $UI_DIR
+
 
 
