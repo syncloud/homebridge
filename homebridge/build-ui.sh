@@ -29,7 +29,7 @@ mv public $UI_DIR
 rm -rf $UI_DIR/scripts
 mv scripts $UI_DIR
 cp package.json $UI_DIR
-cp config.schema.json $UI_DIR
+#cp config.schema.json $UI_DIR
 
 
 
