@@ -46,6 +46,13 @@ local build(arch, test_ui) = [{
                './homebridge/build.sh',
              ],
            },
+{
+             name: 'homebridge ui',
+             image: 'node:' + node,
+             commands: [
+               './homebridge/build-ui.sh ',
+             ],
+           },
            {
              name: 'homebridge npm',
              image: 'node:' + node,
