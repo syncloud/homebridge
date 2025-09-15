@@ -34,7 +34,7 @@ def test_login(selenium, device_user, device_password):
     log.info('open app')
     selenium.open_app()
     log.info('find')
-    selenium.click_by(By,XPATH, "//button[contains(.,'Get Started')]")
+    selenium.click_by(By.XPATH, "//button[contains(.,'Get Started')]")
     log.info('find password')
     password = selenium.find_by_id("password")
     password.send_keys(device_password)
