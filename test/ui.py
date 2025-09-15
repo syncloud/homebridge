@@ -1,6 +1,6 @@
 from os.path import dirname, join
 from subprocess import check_output
-
+import logging
 import pytest
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
@@ -9,6 +9,7 @@ from syncloudlib.integration.hosts import add_host_alias
 DIR = dirname(__file__)
 TMP_DIR = '/tmp/syncloud/ui'
 
+log = logging.getLogger()
 
 @pytest.fixture(scope="session")
 def module_setup(request, selenium, device, artifact_dir, ui_mode):
@@ -30,7 +31,9 @@ def test_start(module_setup, app, domain, device_host):
 
 
 def test_login(selenium, device_user, device_password):
+    log.info('open app')
     selenium.open_app()
+    log.info('find')
     selenium.find_by_xpath("//button[contains(.,'Get Started')]").click()
     password = selenium.find_by_id("password")
     password.send_keys(device_password)
