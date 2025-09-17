@@ -2,6 +2,7 @@ from os.path import dirname, join
 from subprocess import check_output
 import logging
 import pytest
+import requests
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from syncloudlib.integration.hosts import add_host_alias
