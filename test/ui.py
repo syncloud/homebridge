@@ -32,6 +32,7 @@ def test_start(module_setup, app, domain, device_host):
 
 def test_login(selenium, device_user, device_password):
     log.info('open app')
+    selenium.driver.command_executor.set_timeout(10)
     selenium.open_app()
     log.info('find')
     selenium.click_by(By.XPATH, "//button[contains(.,'Get Started')]")
