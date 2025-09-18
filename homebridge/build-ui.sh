@@ -11,8 +11,8 @@ UI_DIR=${BUILD_DIR}/opt/homebridge/lib/node_modules/homebridge-config-ui-x
 
 #grep -C 3 "async findHomebridgePath() {" ${UI_DIR}/bin/hb-service.js
 
-wget https://github.com/cyberb/homebridge-config-ui-x/archive/refs/heads/$VERSION.tar.gz
-tar xf $VERSION.tar.gz
+wget https://github.com/cyberb/homebridge-config-ui-x/archive/refs/heads/v$VERSION.tar.gz
+tar xf v$VERSION.tar.gz
 cd homebridge-config-ui-x-$VERSION
 npm i
 cd ui
