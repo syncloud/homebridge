@@ -2,7 +2,7 @@
 
 DIR=$( cd "$( dirname "$0" )" && pwd )
 cd ${DIR}
-
+VERSION=$1
 BUILD_DIR=${DIR}/../build/snap/homebridge
 
 UI_DIR=${BUILD_DIR}/opt/homebridge/lib/node_modules/homebridge-config-ui-x
@@ -11,9 +11,9 @@ UI_DIR=${BUILD_DIR}/opt/homebridge/lib/node_modules/homebridge-config-ui-x
 
 #grep -C 3 "async findHomebridgePath() {" ${UI_DIR}/bin/hb-service.js
 
-wget https://github.com/cyberb/homebridge-config-ui-x/archive/refs/heads/latest.tar.gz
-tar xf latest.tar.gz
-cd homebridge-config-ui-x-latest
+wget https://github.com/cyberb/homebridge-config-ui-x/archive/refs/heads/$VERSION.tar.gz
+tar xf $VERSION.tar.gz
+cd homebridge-config-ui-x-$VERSION
 npm i
 cd ui
 npm i

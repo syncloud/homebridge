@@ -2,6 +2,7 @@ local name = 'homebridge';
 local browser = 'firefox';
 local node = '22.12.0-alpine3.21';
 local homebridge_ui = '2025-09-03';
+local homebridge_ui_fork = 'v5.5.0-syncloud';
 local homebridge_backend = '1.11.0';
 local platform = '25.02';
 local selenium = '4.35.0-20250828';
@@ -50,7 +51,7 @@ local build(arch, test_ui) = [{
              name: 'homebridge ui',
              image: 'node:' + node,
              commands: [
-               './homebridge/build-ui.sh ',
+               './homebridge/build-ui.sh ' + homebridge_ui_fork,
              ],
            },
            {
