@@ -6,8 +6,8 @@ VERSION=$1
 BUILD_DIR=${DIR}/../build/snap/homebridge
 
 UI_DIR=${BUILD_DIR}/opt/homebridge/lib/node_modules/homebridge-config-ui-x
-#sed -i 's#app\.listen\(.*\);#app.listen({path: "/var/snap/homebridge/common/web.socket"});#g' ${UI_DIR}/main.js
-#sed -i '/async findHomebridgePath() {/a this.homebridgeModulePath = "\/snap\/homebridge\/current\/backend\/node_modules\/homebridge";' ${UI_DIR}/bin/hb-service.js
+sed -i 's#app\.listen\(.*\);#app.listen({path: "/var/snap/homebridge/common/web.socket"});#g' ${UI_DIR}/dist/main.js
+sed -i '/async findHomebridgePath() {/a this.homebridgeModulePath = "\/snap\/homebridge\/current\/backend\/node_modules\/homebridge";' ${UI_DIR}/dist/bin/hb-service.js
 
 #grep -C 3 "async findHomebridgePath() {" ${UI_DIR}/bin/hb-service.js
 
