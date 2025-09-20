@@ -20,12 +20,12 @@ npm i
 cd ..
 npm run build
 
-#rm -rf $UI_DIR/dist
-#mv dist $UI_DIR
+rm -rf $UI_DIR/dist
+mv dist $UI_DIR
 #rm -rf $UI_DIR/node_modules
 #mv node_modules $UI_DIR
-rm -rf $UI_DIR/public
-mv public $UI_DIR
+#rm -rf $UI_DIR/public
+#mv public $UI_DIR
 #rm -rf $UI_DIR/scripts
 #mv scripts $UI_DIR
 #cp package.json $UI_DIR
