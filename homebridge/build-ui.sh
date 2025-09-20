@@ -20,7 +20,9 @@ npm i
 cd ..
 npm run build
 
+ls $UI_DIR/dist
 rm -rf $UI_DIR/dist
+ls dist
 mv dist $UI_DIR
 #rm -rf $UI_DIR/node_modules
 #mv node_modules $UI_DIR
@@ -29,6 +31,4 @@ mv dist $UI_DIR
 #rm -rf $UI_DIR/scripts
 #mv scripts $UI_DIR
 #cp package.json $UI_DIR
-
-
 
