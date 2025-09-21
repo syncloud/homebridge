@@ -44,7 +44,7 @@ def test_login(selenium, device_user, device_password):
     log.info('find')
     #selenium.click_by(By.XPATH, "//button[contains(.,'Get Started')]")
     log.info('find password')
-    selenium.find_by_id("form-login").send_keys(device_user)
+    selenium.find_by_id("form-username").send_keys(device_user)
     selenium.find_by_id("form-pass").send_keys(device_password)
     selenium.find_by(By.XPATH, "//button[contains(.,'Continue')]").click()
     #password.send_keys(device_password)
