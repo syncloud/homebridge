@@ -8,8 +8,8 @@ local platform = '25.02';
 local selenium = '4.35.0-20250828';
 local deployer = 'https://github.com/syncloud/store/releases/download/4/syncloud-release';
 local python = '3.12-slim-bookworm';
-local distro_default = 'buster';
-local distros = ['bookworm', 'buster'];
+local distro_default = 'bookworm';
+local distros = ['bookworm'];
 local dind = '20.10.21-dind';
 
 local build(arch, test_ui) = [{
@@ -300,4 +300,3 @@ local build(arch, test_ui) = [{
 build('amd64', true) +
 build('arm64', false) +
 build('arm', false)
-
