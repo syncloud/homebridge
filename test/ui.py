@@ -54,3 +54,10 @@ def test_login(selenium, device_user, device_password):
     selenium.screenshot('main')
 
 
+def test_plugins(selenium, device_user, device_password):
+  
+    selenium.find_by_xpath("//a[contains(.,'Plugins')]").click()
+    selenium.find_by_xpath("//div[contains(.,'Search for plugins')]")
+    selenium.screenshot('plugins')
+
+
