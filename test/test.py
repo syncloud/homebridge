@@ -83,6 +83,11 @@ def test_access_change_event(device):
     device.run_ssh('snap run homebridge.access-change > {0}/access-change.log'.format(TMP_DIR))
 
 
+def test_npm(device):
+    device.run_ssh('snap run homebridge.npm')
+    device.run_ssh('/snap/homebridge/current/bin/npm')
+
+
 def test_remove(device, app):
     response = device.app_remove(app)
     assert response.status_code == 200, response.text
