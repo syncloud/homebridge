@@ -84,8 +84,8 @@ def test_access_change_event(device):
 
 
 def test_npm(device):
-    device.run_ssh('snap run homebridge.npm')
-    device.run_ssh('/snap/homebridge/current/bin/npm')
+    device.run_ssh('snap run homebridge.npm version')
+    device.run_ssh('/snap/homebridge/current/bin/npm version')
 
 
 def test_remove(device, app):
