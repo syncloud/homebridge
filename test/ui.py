@@ -57,7 +57,11 @@ def test_login(selenium, device_user, device_password):
 def test_plugins(selenium, device_user, device_password):
   
     selenium.find_by_xpath("//a[contains(.,'Plugins')]").click()
-    selenium.find_by_xpath("//input[contains(@placeholder,'Search for plugins')]")
+    search = selenium.find_by_xpath("//input[contains(@placeholder,'Search for plugins')]")
     selenium.screenshot('plugins')
+    search.send_keys("homebridge-tplink-smarthome")
+    search.send_keys(Keys.RETURN)
+    selenium.find_by_xpath("//div[contains(.,'Tplink Smarthome')]")
+    selenium.screenshot('plugins-tplink')
 
 
