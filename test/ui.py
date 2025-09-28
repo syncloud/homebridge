@@ -64,7 +64,9 @@ def test_plugins(selenium, device_user, device_password):
     selenium.find_by_xpath("//div[contains(.,'Tplink Smarthome')]")
     selenium.screenshot('plugins-tplink')
     selenium.find_by_xpath("//i[contains(@class,'fa-arrow-alt-circle-down')]").click()
-    selenium.find_by_xpath("//div[contains(.,'latest')]")
+    selenium.screenshot('plugins-tplink-install')
+    selenium.find_by_xpath("//span[contains(.,'latest')]/../i[contains(@class,'fa-arrow-alt-circle-down')]").click()
+    selenium.find_by_xpath("//span[contains(.,'installed')]")
     selenium.screenshot('plugins-tplink-install')
 
 
