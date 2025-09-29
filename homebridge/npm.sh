@@ -14,4 +14,4 @@ sed -i 's#/usr/bin/env node#/snap/homebridge/current/homebridge/bin/node.sh#g' $
 
 head $BUILD_DIR/node_modules/homebridge/bin/homebridge
 
-sed -i 's#silent = true#silent = true, execPath: process.env.UIX_CUSTOM_NODEJS_PATH#g' $BUILD_DIR/node_modules/homebridge/lib/childBridgeService.js
+sed -i 's#silent: true#silent: true, execPath: process.env.UIX_CUSTOM_NODEJS_PATH#g' $BUILD_DIR/node_modules/homebridge/lib/childBridgeService.js
