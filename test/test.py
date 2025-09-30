@@ -88,6 +88,11 @@ def test_npm(device):
     device.run_ssh('/snap/homebridge/current/bin/npm version')
 
 
+def test_node(device):
+    device.run_ssh('snap run homebridge.node --version')
+    device.run_ssh('/snap/homebridge/current/bin/node --version')
+
+
 def test_remove(device, app):
     response = device.app_remove(app)
     assert response.status_code == 200, response.text
