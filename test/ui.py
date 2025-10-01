@@ -67,7 +67,7 @@ def test_plugins(selenium, device_user, device_password):
     selenium.screenshot('plugins-tplink')
     install_btn = "//i[contains(@class,'fa-arrow-alt-circle-down')]"
     selenium.find_by(By.XPATH, install_btn).click()
-    selenium.invisible_by(By.XPATH, "//span[text()='homebridge-tplink-smarthome']")
+    selenium.clickable_by(By.XPATH, "//button[contains(.,'Close')]")
     selenium.screenshot('plugins-tplink-install')
     selenium.find_by_xpath("//span[contains(.,'latest')]/..//i").click()
     selenium.find_by_xpath("//span[contains(.,'installed')]")
