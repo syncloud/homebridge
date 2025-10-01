@@ -51,6 +51,8 @@ def test_login(selenium, device_user, device_password):
     #selenium.screenshot('login')
     #password.send_keys(Keys.RETURN)
     selenium.find_by_xpath("//a[contains(.,'Plugins')]/../span[text()='Up to Date']")
+    selenium.find_by_xpath('//a[text()="Homebridge"]/..//i[contains(@class,"green-text")]')
+
     selenium.screenshot('main')
 
 
