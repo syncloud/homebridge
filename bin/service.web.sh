@@ -11,4 +11,6 @@ $SNAP/homebridge/bin/node.sh \
   run -I \
   -U $SNAP_DATA/storage \
   -P $UIX_CUSTOM_PLUGIN_PATH \
-  --strict-plugin-resolution "$@"
+  "$@"
+
+# --strict-plugin-resolution "$@"
