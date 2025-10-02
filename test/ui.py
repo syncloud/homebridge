@@ -68,6 +68,7 @@ def test_plugins(selenium, device_user, device_password):
     install_btn = "//i[contains(@class,'fa-arrow-alt-circle-down')]"
     selenium.find_by(By.XPATH, install_btn).click()
     selenium.clickable_by(By.XPATH, "//button[contains(.,'Close')]")
+    selenium.find_by(By.XPATH, "//h6[contains(.,'Select the version to install')]")
     selenium.screenshot('plugins-tplink-install')
     selenium.find_by_xpath("//span[contains(.,'latest')]/..//i").click()
     selenium.find_by_xpath("//span[contains(.,'installed')]")
