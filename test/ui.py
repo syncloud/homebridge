@@ -71,8 +71,11 @@ def test_plugins(selenium, device_user, device_password):
     selenium.find_by(By.XPATH, "//h6[contains(.,'Select the version to install')]")
     selenium.find_by(By.XPATH, "//div[contains(.,'All versions')]")
     selenium.screenshot('plugins-tplink-install')
-    selenium.find_by_xpath("//span[contains(.,'latest')]/..//i").click()
+    selenium.click_by(By.XPATH, "//span[contains(.,'latest')]/..//i")
     selenium.find_by_xpath("//span[contains(.,'installed')]")
     selenium.screenshot('plugins-tplink-install')
+
+
+
 
 
