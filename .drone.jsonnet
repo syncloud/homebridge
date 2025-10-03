@@ -47,7 +47,7 @@ local build(arch, test_ui) = [{
                './homebridge/build.sh',
              ],
            },
-{
+           {
              name: 'homebridge ui',
              image: 'node:' + node,
              commands: [
@@ -164,7 +164,7 @@ local build(arch, test_ui) = [{
           ] else []) + [
     {
       name: 'upload',
-      image: 'debian:buster-slim',
+      image: 'debian:bookworm-slim',
       environment: {
         AWS_ACCESS_KEY_ID: {
           from_secret: 'AWS_ACCESS_KEY_ID',
@@ -300,5 +300,5 @@ local build(arch, test_ui) = [{
 build('amd64', true) +
 build('arm64', false)
 
-# nodejs 24 doea not seem to support arm32
-#build('arm', false)
+// nodejs 24 doea not seem to support arm32
+//build('arm', false)
