@@ -74,5 +74,6 @@ def test_plugins(selenium, device_user, device_password):
     selenium.click_by(By.XPATH, "//span[contains(.,'latest')]/..//i")
     selenium.find_by(By.XPATH, "//h5[contains(.,'Homebridge Tplink Smarthome')]")
     selenium.screenshot('plugins-tplink-install')
-
+    selenium.invisible_by(By.XPATH, "//h5[contains(.,'Homebridge Tplink Smarthome')]")
+    selenium.screenshot('plugins-tplink-install-finish')
 
