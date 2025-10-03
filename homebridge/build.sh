@@ -12,3 +12,4 @@ cp -r /bin ${BUILD_DIR}
 cp -r /lib ${BUILD_DIR}
 cp -r ${DIR}/bin/* ${BUILD_DIR}/bin
 
+sed -i 's#/usr/bin/env node#/snap/homebridge/current/homebridge/bin/node.sh#g' $BUILD_DIR/opt/homebridge/bin/npm

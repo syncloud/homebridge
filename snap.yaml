@@ -12,6 +12,12 @@ apps:
   cli:
     command: bin/cli
 
+  npm:
+    command: bin/npm
+
+  node:
+    command: bin/node
+
   storage-change:
     command: bin/cli storage-change
 

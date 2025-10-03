@@ -1,6 +1,6 @@
 local name = 'homebridge';
 local browser = 'firefox';
-local node = '22.12.0-alpine3.21';
+local node = '24.9.0-alpine3.21';
 local homebridge_ui = '2025-09-03';
 local homebridge_ui_fork = '5.5.0-syncloud';
 local homebridge_backend = '1.11.0';
@@ -8,8 +8,8 @@ local platform = '25.02';
 local selenium = '4.35.0-20250828';
 local deployer = 'https://github.com/syncloud/store/releases/download/4/syncloud-release';
 local python = '3.12-slim-bookworm';
-local distro_default = 'buster';
-local distros = ['bookworm', 'buster'];
+local distro_default = 'bookworm';
+local distros = ['bookworm'];
 local dind = '20.10.21-dind';
 
 local build(arch, test_ui) = [{
@@ -298,6 +298,7 @@ local build(arch, test_ui) = [{
 }];
 
 build('amd64', true) +
-build('arm64', false) +
-build('arm', false)
+build('arm64', false)
 
+# nodejs 24 doea not seem to support arm32
+#build('arm', false)
