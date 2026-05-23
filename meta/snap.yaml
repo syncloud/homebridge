@@ -34,7 +34,7 @@ apps:
     command: bin/cli restore-post-start
 
 confinement: strict
-description: homebridge
+description: Integrate with smart home devices that do not natively support HomeKit
 grade: stable
 name: homebridge
-summary: homebridge
+summary: Homebridge
