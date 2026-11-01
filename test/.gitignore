@@ -1,4 +1,4 @@
-screenshot
-firefox
-*.xpi
+node_modules
+test-results
+playwright-report
 artifact

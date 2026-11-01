@@ -1,16 +1,20 @@
 local name = 'homebridge';
-local browser = 'firefox';
 local node = '24.9.0-alpine3.21';
 local homebridge_ui = '2025-09-03';
 local homebridge_ui_fork = '5.5.0-syncloud';
-local homebridge_backend = '1.11.0';
-local platform = '25.02';
-local selenium = '4.35.0-20250828';
+local homebridge_backend = '2.3.1';
+local platform = '26.10.02';
+local playwright = 'mcr.microsoft.com/playwright:v1.59.1-jammy';
 local store_publisher = 'stable-346';
+local golang = '1.25';
 local python = '3.12-slim-bookworm';
+local debian = 'bookworm-slim';
 local distro_default = 'bookworm';
-local distros = ['bookworm'];
-local dind = '20.10.21-dind';
+local distros = ['bookworm', 'buster'];
+
+local platform_image(distro) = 'syncloud/platform-' + distro + ':' + platform;
+
+local snapd_hold = "mkdir -p /etc/systemd/system/snapd.service.d && printf '[Service]\\nExecStartPost=/bin/sh -c \"/usr/bin/snap set system refresh.hold=2099-01-01T00:00:00Z\"\\n' > /etc/systemd/system/snapd.service.d/disable-refresh.conf && exec /sbin/init";
 
 local build(arch, test_ui) = [{
   kind: 'pipeline',
@@ -21,147 +25,97 @@ local build(arch, test_ui) = [{
     arch: arch,
   },
   steps: [
-           {
-             name: 'version',
-             image: 'debian:bookworm-slim',
-             commands: [
-               'echo $DRONE_BUILD_NUMBER > version',
-             ],
-           },
-           {
-             name: 'cli',
-             image: 'golang:1.23',
-             commands: [
-               'cd cli',
-               'CGO_ENABLED=0 go build -o ../build/snap/meta/hooks/install ./cmd/install',
-               'CGO_ENABLED=0 go build -o ../build/snap/meta/hooks/configure ./cmd/configure',
-               'CGO_ENABLED=0 go build -o ../build/snap/meta/hooks/pre-refresh ./cmd/pre-refresh',
-               'CGO_ENABLED=0 go build -o ../build/snap/meta/hooks/post-refresh ./cmd/post-refresh',
-               'CGO_ENABLED=0 go build -o ../build/snap/bin/cli ./cmd/cli',
-             ],
-           },
-           {
-             name: 'homebridge',
-             image: 'homebridge/homebridge:' + homebridge_ui,
-             commands: [
-               './homebridge/build.sh',
-             ],
-           },
-           {
-             name: 'homebridge ui',
-             image: 'node:' + node,
-             commands: [
-               './homebridge/build-ui.sh ' + homebridge_ui_fork,
-             ],
-           },
-           {
-             name: 'homebridge npm',
-             image: 'node:' + node,
-             commands: [
-               './homebridge/npm.sh ' + homebridge_backend,
-             ],
-           },
-           {
-             name: 'homebridge test',
-             image: 'syncloud/platform-buster-' + arch + ':' + platform,
-             commands: [
-               './homebridge/test.sh',
-             ],
-           },
-           {
-             name: 'package',
-             image: 'debian:bookworm-slim',
-             commands: [
-               'VERSION=$(cat version)',
-               './package.sh ' + name + ' $VERSION ',
-             ],
-           },
-         ] + [
-           {
-             name: 'test ' + distro,
-             image: 'python:' + python,
-             commands: [
-               'cd test',
-               './deps.sh',
-               'py.test -x -s test.py --distro=' + distro + ' --ver=$DRONE_BUILD_NUMBER --app=' + name,
-             ],
-           }
-           for distro in distros
-
-         ] + (if test_ui then [
-                {
-                  name: 'selenium',
-                  image: 'selenium/standalone-' + browser + ':' + selenium,
-                  detach: true,
-                  environment: {
-                    SE_NODE_SESSION_TIMEOUT: '999999',
-                    START_XVFB: 'true',
-                  },
-                  volumes: [{
-                    name: 'shm',
-                    path: '/dev/shm',
-                  }],
-                  commands: [
-                    'cat /etc/hosts',
-                    'DOMAIN="' + distro_default + '.com"',
-                    'APP_DOMAIN="' + name + '.' + distro_default + '.com"',
-                    'getent hosts $APP_DOMAIN | sed "s/$APP_DOMAIN/auth.$DOMAIN/g" | sudo tee -a /etc/hosts',
-                    'cat /etc/hosts',
-                    '/opt/bin/entry_point.sh',
-                  ],
-                },
-                {
-                  name: 'selenium-video',
-                  image: 'selenium/video:ffmpeg-6.1.1-20240621',
-                  detach: true,
-                  environment: {
-                    DISPLAY_CONTAINER_NAME: 'selenium',
-                    FILE_NAME: 'video.mkv',
-                  },
-                  volumes: [
-                    {
-                      name: 'shm',
-                      path: '/dev/shm',
-                    },
-                    {
-                      name: 'videos',
-                      path: '/videos',
-                    },
-                  ],
-                },
-
-                {
-                  name: 'test-ui',
-                  image: 'python:' + python,
-                  commands: [
-                    'cd test',
-                    './deps.sh',
-                    'py.test -x -s ui.py --browser-height=4000 --distro=' + distro_default + ' --ver=$DRONE_BUILD_NUMBER --app=' + name,
-                  ],
-                  privileged: true,
-                  volumes: [{
-                    name: 'videos',
-                    path: '/videos',
-                  }],
-                },
-              ]
-              else []) +
-         (if arch == 'amd64' then [
-            {
-              name: 'test-upgrade',
-              image: 'python:' + python,
-              commands: [
-                'cd test',
-                './deps.sh',
-                'py.test -x -s upgrade.py --distro=' + distro_default + ' --ver=$DRONE_BUILD_NUMBER --app=' + name,
-              ],
-              privileged: true,
-              volumes: [{
-                name: 'videos',
-                path: '/videos',
-              }],
-            },
-          ] else []) + [
+    {
+      name: 'cli',
+      image: 'golang:' + golang,
+      commands: [
+        './cli/build.sh',
+      ],
+    },
+    {
+      name: 'homebridge',
+      image: 'homebridge/homebridge:' + homebridge_ui,
+      commands: [
+        './homebridge/build.sh',
+      ],
+    },
+    {
+      name: 'homebridge ui',
+      image: 'node:' + node,
+      commands: [
+        './homebridge/build-ui.sh ' + homebridge_ui_fork,
+      ],
+    },
+    {
+      name: 'homebridge npm',
+      image: 'node:' + node,
+      commands: [
+        './homebridge/npm.sh ' + homebridge_backend,
+      ],
+    },
+  ] + [
+    {
+      name: 'homebridge test ' + distro,
+      image: platform_image(distro),
+      commands: [
+        './homebridge/test.sh',
+      ],
+    }
+    for distro in distros
+  ] + [
+    {
+      name: 'package',
+      image: 'debian:' + debian,
+      commands: [
+        './package.sh ' + name + ' $DRONE_BUILD_NUMBER',
+      ],
+    },
+  ] + [
+    {
+      name: 'test ' + distro,
+      image: 'python:' + python,
+      commands: [
+        './ci/test.sh test.py ' + distro + ' ' + name,
+      ],
+    }
+    for distro in distros
+  ] + (if test_ui then [
+         {
+           name: 'e2e',
+           image: playwright,
+           commands: [
+             './test/e2e/run.sh specs/01-smoke.spec.ts',
+           ],
+         },
+         {
+           name: 'test-upgrade-prev',
+           image: 'python:' + python,
+           commands: [
+             './ci/test.sh upgrade_prev.py ' + distro_default + ' ' + name,
+           ],
+         },
+         {
+           name: 'e2e-before-upgrade',
+           image: playwright,
+           commands: [
+             './test/e2e/run.sh specs/02-pre-upgrade.spec.ts',
+           ],
+         },
+         {
+           name: 'test-upgrade',
+           image: 'python:' + python,
+           commands: [
+             './ci/test.sh upgrade.py ' + distro_default + ' ' + name,
+           ],
+         },
+         {
+           name: 'e2e-after-upgrade',
+           image: playwright,
+           commands: [
+             './test/e2e/run.sh specs/03-post-upgrade.spec.ts',
+           ],
+         },
+       ] else []) + [
     {
       name: 'publish',
       image: 'syncloud/store-publisher:' + store_publisher,
@@ -178,13 +132,9 @@ local build(arch, test_ui) = [{
       name: 'artifact',
       image: 'appleboy/drone-scp:1.6.4',
       settings: {
-        host: {
-          from_secret: 'artifact_host',
-        },
+        host: { from_secret: 'artifact_host' },
         username: 'artifact',
-        key: {
-          from_secret: 'artifact_key',
-        },
+        key: { from_secret: 'artifact_key' },
         timeout: '2m',
         command_timeout: '2m',
         target: '/home/artifact/repo/' + name + '/${DRONE_BUILD_NUMBER}-' + arch,
@@ -198,70 +148,26 @@ local build(arch, test_ui) = [{
     },
   ],
   trigger: {
-    event: [
-      'push',
-    ],
+    event: ['push'],
   },
   services: [
     {
-      name: 'docker',
-      image: 'docker:' + dind,
-      privileged: true,
-      volumes: [
-        {
-          name: 'dockersock',
-          path: '/var/run',
-        },
-      ],
-    },
-  ] + [
-    {
       name: name + '.' + distro + '.com',
-      image: 'syncloud/platform-' + distro + '-' + arch + ':' + platform,
+      image: platform_image(distro),
       privileged: true,
+      entrypoint: ['/bin/sh', '-c', snapd_hold],
       volumes: [
-        {
-          name: 'dbus',
-          path: '/var/run/dbus',
-        },
-        {
-          name: 'dev',
-          path: '/dev',
-        },
+        { name: 'dbus', path: '/var/run/dbus' },
+        { name: 'dev', path: '/dev' },
       ],
     }
     for distro in distros
   ],
   volumes: [
-    {
-      name: 'dbus',
-      host: {
-        path: '/var/run/dbus',
-      },
-    },
-    {
-      name: 'dev',
-      host: {
-        path: '/dev',
-      },
-    },
-    {
-      name: 'shm',
-      temp: {},
-    },
-    {
-      name: 'dockersock',
-      temp: {},
-    },
-    {
-      name: 'videos',
-      temp: {},
-    },
+    { name: 'dbus', host: { path: '/var/run/dbus' } },
+    { name: 'dev', host: { path: '/dev' } },
   ],
 }];
 
 build('amd64', true) +
 build('arm64', false)
-
-// nodejs 24 doea not seem to support arm32
-//build('arm', false)

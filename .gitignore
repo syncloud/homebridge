@@ -4,3 +4,10 @@ dist
 build
 *.log
 venv
+artifact
+version
+package.name
+*.snap
+node_modules
+homebridge/homebridge-config-ui-x-*
+homebridge/*.tar.gz
