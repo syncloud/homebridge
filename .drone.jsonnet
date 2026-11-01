@@ -67,6 +67,7 @@ local build(arch, test_ui) = [{
       name: 'package',
       image: 'debian:' + debian,
       commands: [
+        'echo $DRONE_BUILD_NUMBER > version',
         './package.sh ' + name + ' $DRONE_BUILD_NUMBER',
       ],
     },
